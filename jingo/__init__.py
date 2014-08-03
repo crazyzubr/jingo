@@ -1,18 +1,17 @@
 """Adapter for using Jinja2 with Django."""
 
 from __future__ import unicode_literals
+import logging
 
+from django.utils import translation
 import functools
 import imp
-import logging
 import re
-
 from django.conf import settings
 from django.template.base import Origin, TemplateDoesNotExist
 from django.template.context import get_standard_processors
 from django.template.loader import BaseLoader
 from django.utils.importlib import import_module
-
 import jinja2
 
 VERSION = (0, 7, 0)
@@ -79,7 +78,7 @@ def get_env():
     # testing.
     if ('jinja2.ext.i18n' in e.extensions or
             'jinja2.ext.InternationalizationExtension' in e.extensions):
-        e.install_null_translations()
+        e.install_gettext_translations(translation)
     return e
 
 
